@@ -5,9 +5,12 @@ from utils.save_to_document import save_document
 from starlette.responses import JSONResponse
 import os
 import datetime
+from custom_logging.logger import get_logger
 from dotenv import load_dotenv
 from pydantic import BaseModel
 load_dotenv()
+
+logger = get_logger(__name__)
 
 app = FastAPI()
 
@@ -24,6 +27,7 @@ class QueryRequest(BaseModel):
 @app.post("/query")
 async def query_travel_agent(query:QueryRequest):
     try:
+        logger.info("Starting the Server")
         print(query)
         graph = GraphBuilder(model_provider="groq")
         react_app=graph()
@@ -45,4 +49,5 @@ async def query_travel_agent(query:QueryRequest):
         
         return {"answer": final_output}
     except Exception as e:
+        logger.error("Error in Running Server")
         return JSONResponse(status_code=500, content={"error": str(e)})
