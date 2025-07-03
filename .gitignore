@@ -5,10 +5,13 @@ build/
 dist/
 wheels/
 *.egg-info
+logs/
 
 # Virtual environments
 .venv
 aaatp
+
+
 
 # env files
 .env
